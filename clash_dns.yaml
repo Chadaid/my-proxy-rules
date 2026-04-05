@@ -1,0 +1,61 @@
+allow-lan: true
+dns:
+  enable: true
+  listen: ':53'
+  enhanced-mode: 'fake-ip'
+  fake-ip-range: '198.18.0.1/16'
+  fake-ip-filter-mode: 'blacklist'
+  prefer-h3: true
+  respect-rules: true
+  use-hosts: true
+  use-system-hosts: false
+  ipv6: false
+  fake-ip-filter:
+    - '*.lan'
+    - '*.local'
+    - '*.arpa'
+    - 'time.*.com'
+    - 'ntp.*.com'
+    - '+.market.xiaomi.com'
+    - 'localhost.ptlogin2.qq.com'
+    - '*.msftncsi.com'
+    - 'www.msftconnecttest.com'
+    - '*.bilibili.com'
+    - '*.bilivideo.com'
+    - '*.bilivideo.cn'
+    - '*.bilivideo.net'
+    - '*.hdslb.com'
+    - '*.biliapi.net'
+    - '*.biliapi.com'
+    - '*.mcdn.bilivideo.cn'
+  default-nameserver:
+    - 'system'
+    - '223.5.5.5'
+    - '119.29.29.29'
+    - '2400:3200::1'
+    - '2001:4860:4860::8888'
+  nameserver:
+    - 'https://1.1.1.1/dns-query'
+    - 'https://8.8.8.8/dns-query'
+  direct-nameserver-follow-policy: false
+  fallback-filter:
+    geoip: false
+    geoip-code: 'CN'
+    ipcidr:
+      - '240.0.0.0/4'
+      - '0.0.0.0/32'
+    domain:
+      - '+.google.com'
+      - '+.facebook.com'
+      - '+.youtube.com'
+  fallback: []
+  proxy-server-nameserver:
+    - 'https://doh.pub/dns-query'
+    - 'https://dns.alidns.com/dns-query'
+    - 'https://1.1.1.1/dns-query'
+    - 'tls://223.5.5.5'
+  direct-nameserver: []
+  nameserver-policy:
+    geosite:cn:
+      - 'https://dns.alidns.com/dns-query'
+      - 'https://doh.pub/dns-query'
