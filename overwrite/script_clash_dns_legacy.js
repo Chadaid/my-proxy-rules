@@ -1,0 +1,78 @@
+// 覆写脚本开始
+function main(config) {
+  // 覆写 allow-lan
+  config["allow-lan"] = true;
+
+  // 覆写 DNS 配置
+  config["dns"] = {
+    "enable": true,
+    "listen": ":53",
+    "enhanced-mode": "fake-ip",
+    "fake-ip-range": "198.18.0.1/16",
+    "use-hosts": false,
+    "use-system-hosts": true,
+    "ipv6": false,
+    "fake-ip-filter":[
+      "*.lan",
+      "*.local",
+      "*.arpa",
+      "time.*.com",
+      "ntp.*.com",
+      "+.market.xiaomi.com",
+      "localhost.ptlogin2.qq.com",
+      "*.msftncsi.com",
+      "www.msftconnecttest.com",
+      "*.bilibili.com",
+      "*.bilivideo.com",
+      "*.bilivideo.cn",
+      "*.bilivideo.net",
+      "*.hdslb.com",
+      "*.biliapi.net",
+      "*.biliapi.com",
+      "*.mcdn.bilivideo.cn"
+    ],
+    "default-nameserver":[
+      "system",
+      "223.5.5.5",
+      "119.29.29.29",
+      "2400:3200::1",
+      "2001:4860:4860::8888"
+    ],
+    
+    // 【修改点 1】: 将国内 DNS 作为主力解析
+    "nameserver":[
+      "https://dns.alidns.com/dns-query",
+      "https://doh.pub/dns-query"
+    ],
+    
+    // 【修改点 2】: 将国外防污染 DNS 放入 fallback
+    "fallback":[
+      "https://1.1.1.1/dns-query",
+      "https://8.8.8.8/dns-query"
+    ],
+    
+    "fallback-filter": {
+      "geoip": true, // 【修改点 3】: 开启 GeoIP 过滤，确保国内外 DNS 精准分流
+      "geoip-code": "CN",
+      "ipcidr":[
+        "240.0.0.0/4",
+        "0.0.0.0/32"
+      ],
+      "domain":[
+        "+.google.com",
+        "+.facebook.com",
+        "+.youtube.com"
+      ]
+    },
+
+    // 【修改点 4】: 改为 Stash 原生支持的单字符串和域名格式
+    "nameserver-policy": {
+      "+.qq.com": "https://doh.pub/dns-query",
+      "+.taobao.com": "https://dns.alidns.com/dns-query",
+      "+.baidu.com": "114.114.114.114"
+    }
+  };
+
+  return config;
+}
+// 覆写脚本结束
