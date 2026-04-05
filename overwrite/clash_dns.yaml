@@ -7,8 +7,8 @@ dns:
   fake-ip-filter-mode: 'blacklist'
   prefer-h3: true
   respect-rules: true
-  use-hosts: true
-  use-system-hosts: false
+  use-hosts: false
+  use-system-hosts: true
   ipv6: false
   fake-ip-filter:
     - '*.lan'
