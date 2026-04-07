@@ -3,6 +3,12 @@ desc: 采用完全覆盖方式替换原有 allow-lan、geox-url、dns、proxy-gr
 
 allow-lan: true
 
+geox-url: #!replace
+  geoip: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/geoip.dat'
+  geosite: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/geosite.dat'
+  mmdb: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/country.mmdb'
+  asn: 'https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb'
+
 dns: #!replace
   enable: true
   listen: ':53'
@@ -61,8 +67,7 @@ dns: #!replace
     - 'tls://223.5.5.5'
   direct-nameserver: []
   nameserver-policy:
-    'geosite:cn':
-    - 'https://dns.alidns.com/dns-query'
+    'geosite:cn': 'https://dns.alidns.com/dns-query'
 
 
 proxy-groups: #!replace
