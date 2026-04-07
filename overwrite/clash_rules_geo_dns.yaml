@@ -316,14 +316,14 @@ proxy-groups:
       - DIRECT
     include-all: true
 
-  # ================= 第一部分：手动选择组 (展示在软件面板) =================
+# ================= 第一部分：手动选择组 (展示在软件面板) =================
   - name: 🇭🇰 香港节点
     type: select
     proxies:
       - 🇭🇰 香港自动
       - DIRECT
     include-all: true
-    filter: "(?i)港|hk|hongkong|hong kong"
+    filter: "(?i)🇭🇰|香港|hongkong|hong kong"
 
   - name: 🇹🇼 台湾节点
     type: select
@@ -331,7 +331,7 @@ proxy-groups:
       - 🇹🇼 台湾自动
       - DIRECT
     include-all: true
-    filter: "(?i)台|tw|taiwan"
+    filter: "(?i)🇹🇼|台湾|taiwan"
 
   - name: 🇺🇸 美国节点
     type: select
@@ -339,7 +339,7 @@ proxy-groups:
       - 🇺🇸 美国自动
       - DIRECT
     include-all: true
-    filter: "(?i)美|us|united states|america|los angeles"
+    filter: "(?i)🇺🇸|美国|united states|america|los angeles"
 
   - name: 🇸🇬 狮城节点
     type: select
@@ -347,7 +347,7 @@ proxy-groups:
       - 🇸🇬 狮城自动
       - DIRECT
     include-all: true
-    filter: "(?i)新|坡|狮城|sg|singapore"
+    filter: "(?i)🇸🇬|新加坡|狮城|singapore"
 
   - name: 🇰🇷 韩国节点
     type: select
@@ -355,7 +355,7 @@ proxy-groups:
       - 🇰🇷 韩国自动
       - DIRECT
     include-all: true
-    filter: "(?i)韩|kr|korea"
+    filter: "(?i)🇰🇷|韩国|korea"
 
   - name: 🇯🇵 日本节点
     type: select
@@ -363,14 +363,14 @@ proxy-groups:
       - 🇯🇵 日本自动
       - DIRECT
     include-all: true
-    filter: "(?i)日本|jp|japan"
+    filter: "(?i)🇯🇵|日本|japan"
 
   - name: 🇨🇳 回国节点
     type: select
     proxies:
       - DIRECT
     include-all: true
-    filter: "(?i)中|国|回国|cn|china"
+    filter: "(?i)🇨🇳|中国|回国|国内|china"
 
   # ================= 第二部分：自动测速组 (移至末尾，并在面板中隐藏) =================
   - name: 🇭🇰 香港自动
@@ -379,7 +379,7 @@ proxy-groups:
     interval: 300
     tolerance: 50
     include-all: true
-    filter: "(?i)港|hk|hongkong|hong kong"
+    filter: "(?i)🇭🇰|香港|hongkong|hong kong"
     hidden: true # 关键参数：在面板中隐藏此组
 
   - name: 🇹🇼 台湾自动
@@ -388,7 +388,7 @@ proxy-groups:
     interval: 300
     tolerance: 50
     include-all: true
-    filter: "(?i)台|tw|taiwan"
+    filter: "(?i)🇹🇼|台湾|taiwan"
     hidden: true
 
   - name: 🇺🇸 美国自动
@@ -397,7 +397,7 @@ proxy-groups:
     interval: 300
     tolerance: 50
     include-all: true
-    filter: "(?i)美|us|united states|america|los angeles"
+    filter: "(?i)🇺🇸|美国|united states|america|los angeles"
     hidden: true
 
   - name: 🇸🇬 狮城自动
@@ -406,7 +406,7 @@ proxy-groups:
     interval: 300
     tolerance: 50
     include-all: true
-    filter: "(?i)新|坡|狮城|sg|singapore"
+    filter: "(?i)🇸🇬|新加坡|狮城|singapore"
     hidden: true
 
   - name: 🇰🇷 韩国自动
@@ -415,7 +415,7 @@ proxy-groups:
     interval: 300
     tolerance: 50
     include-all: true
-    filter: "(?i)韩|kr|korea"
+    filter: "(?i)🇰🇷|韩国|korea"
     hidden: true
 
   - name: 🇯🇵 日本自动
@@ -424,7 +424,7 @@ proxy-groups:
     interval: 300
     tolerance: 50
     include-all: true
-    filter: "(?i)日本|jp|japan"
+    filter: "(?i)🇯🇵|日本|japan"
     hidden: true
 
 rules:
