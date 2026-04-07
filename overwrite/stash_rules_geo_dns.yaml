@@ -341,7 +341,7 @@ proxy-groups: #!replace
       - 🇯🇵 日本自动
       - DIRECT
     
-    filter: "(?i)日|jp|japan"
+    filter: "(?i)日本|jp|japan"
 
   - name: 🇨🇳 回国节点
     type: select
@@ -402,7 +402,7 @@ proxy-groups: #!replace
     interval: 300
     tolerance: 50
     
-    filter: "(?i)日|jp|japan"
+    filter: "(?i)日本|jp|japan"
     hidden: true
 
 rules: #!replace
