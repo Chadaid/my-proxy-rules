@@ -6,7 +6,6 @@ geox-url:
   geosite: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/geosite.dat'
   mmdb: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/country.mmdb'
   asn: 'https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb'
-allow-lan: true
 dns:
   enable: true
   listen: ':53'
