@@ -1,14 +1,12 @@
 name: 代理规则与DNS完全覆盖配置
 desc: 采用完全覆盖方式替换原有 allow-lan、geox-url、dns、proxy-groups 和 rules
-
 allow-lan: true
-
-geox-url: #!replace
+geox-url:
   geoip: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/geoip.dat'
   geosite: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/geosite.dat'
   mmdb: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/country.mmdb'
   asn: 'https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb'
-
+allow-lan: true
 dns:
   enable: true
   listen: ':53'
@@ -63,14 +61,7 @@ dns:
       - '+.facebook.com'
       - '+.youtube.com'
 
-  # 【修改点 4】: 改为 Stash 原生支持的单字符串和域名格式
-  nameserver-policy:
-    '+.qq.com': 'https://doh.pub/dns-query'
-    '+.taobao.com': 'https://dns.alidns.com/dns-query'
-    '+.baidu.com': '114.114.114.114'
-
-
-proxy-groups: #!replace
+proxy-groups:
   # 1. 主节点选择：默认代理开关
   # include-all: true 会把所有机场节点自动加进来
 # 1. 主代理选择
@@ -398,7 +389,7 @@ proxy-groups: #!replace
     filter: "(?i)日|jp|japan"
     hidden: true
 
-rules: #!replace
+rules:
   # 🛑 拦截广告 (注意：你截图里选了 DIRECT 直连，通常广告应该选 REJECT 拒绝，此处指向你的策略组)
   - GEOSITE,category-ads-all,🛑 拦截广告
 
@@ -522,3 +513,4 @@ rules: #!replace
 
   # 🐟 漏网之鱼 (兜底规则，所有上方未匹配的流量最终走向这里)
   - MATCH,🐟 漏网之鱼
+
