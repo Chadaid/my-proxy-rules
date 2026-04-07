@@ -62,7 +62,7 @@ dns:
 
 proxy-groups: #!replace
   # 1. 主节点选择：默认代理开关
-  # include-all: true 会把所有机场节点自动加进来
+  #  会把所有机场节点自动加进来
 # 1. 主代理选择
   - name: 🚀 代理选择
     type: select
@@ -75,7 +75,7 @@ proxy-groups: #!replace
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
-    include-all: true
+    
 
   # AIGC：去除了 include-all 和正则，直接引入符合 AI 要求的地区组
   - name: 🤖 AIGC
@@ -300,7 +300,7 @@ proxy-groups: #!replace
     proxies:
       - 🇭🇰 香港自动
       - DIRECT
-    include-all: true
+    
     filter: "(?i)港|hk|hongkong|hong kong"
 
   - name: 🇹🇼 台湾节点
@@ -308,7 +308,7 @@ proxy-groups: #!replace
     proxies:
       - 🇹🇼 台湾自动
       - DIRECT
-    include-all: true
+    
     filter: "(?i)台|tw|taiwan"
 
   - name: 🇺🇸 美国节点
@@ -316,7 +316,7 @@ proxy-groups: #!replace
     proxies:
       - 🇺🇸 美国自动
       - DIRECT
-    include-all: true
+    
     filter: "(?i)美|us|united states|america|los angeles"
 
   - name: 🇸🇬 狮城节点
@@ -324,7 +324,7 @@ proxy-groups: #!replace
     proxies:
       - 🇸🇬 狮城自动
       - DIRECT
-    include-all: true
+    
     filter: "(?i)新|坡|狮城|sg|singapore"
 
   - name: 🇰🇷 韩国节点
@@ -332,7 +332,7 @@ proxy-groups: #!replace
     proxies:
       - 🇰🇷 韩国自动
       - DIRECT
-    include-all: true
+    
     filter: "(?i)韩|kr|korea"
 
   - name: 🇯🇵 日本节点
@@ -340,14 +340,14 @@ proxy-groups: #!replace
     proxies:
       - 🇯🇵 日本自动
       - DIRECT
-    include-all: true
+    
     filter: "(?i)日|jp|japan"
 
   - name: 🇨🇳 回国节点
     type: select
     proxies:
       - DIRECT
-    include-all: true
+    
     filter: "(?i)中|国|回国|cn|china"
 
   # ================= 第二部分：自动测速组 (移至末尾，并在面板中隐藏) =================
@@ -356,7 +356,7 @@ proxy-groups: #!replace
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
-    include-all: true
+    
     filter: "(?i)港|hk|hongkong|hong kong"
     hidden: true # 关键参数：在面板中隐藏此组
 
@@ -365,7 +365,7 @@ proxy-groups: #!replace
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
-    include-all: true
+    
     filter: "(?i)台|tw|taiwan"
     hidden: true
 
@@ -374,7 +374,7 @@ proxy-groups: #!replace
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
-    include-all: true
+    
     filter: "(?i)美|us|united states|america|los angeles"
     hidden: true
 
@@ -383,7 +383,7 @@ proxy-groups: #!replace
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
-    include-all: true
+    
     filter: "(?i)新|坡|狮城|sg|singapore"
     hidden: true
 
@@ -392,7 +392,7 @@ proxy-groups: #!replace
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
-    include-all: true
+    
     filter: "(?i)韩|kr|korea"
     hidden: true
 
@@ -401,7 +401,7 @@ proxy-groups: #!replace
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
-    include-all: true
+    
     filter: "(?i)日|jp|japan"
     hidden: true
 
