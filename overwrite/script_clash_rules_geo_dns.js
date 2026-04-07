@@ -161,49 +161,49 @@ function main(config) {
       "type": "select",
       "proxies": ["🇭🇰 香港自动", "DIRECT"],
       "include-all": true,
-      "filter": "(?i)香港|hongkong|hong kong"
+      "filter": "(?i)🇭🇰|香港|hongkong|hong kong"
     },
     {
       "name": "🇹🇼 台湾节点",
       "type": "select",
       "proxies":["🇹🇼 台湾自动", "DIRECT"],
       "include-all": true,
-      "filter": "(?i)台湾|taiwan"
+      "filter": "(?i)🇹🇼|台湾|taiwan"
     },
     {
       "name": "🇺🇸 美国节点",
       "type": "select",
       "proxies": ["🇺🇸 美国自动", "DIRECT"],
       "include-all": true,
-      "filter": "(?i)美国|united states|america|los angeles"
+      "filter": "(?i)🇺🇸|美国|united states|america|los angeles"
     },
     {
       "name": "🇸🇬 狮城节点",
       "type": "select",
       "proxies":["🇸🇬 狮城自动", "DIRECT"],
       "include-all": true,
-      "filter": "(?i)新加坡|狮城|singapore"
+      "filter": "(?i)🇸🇬|新加坡|狮城|singapore"
     },
     {
       "name": "🇰🇷 韩国节点",
       "type": "select",
       "proxies":["🇰🇷 韩国自动", "DIRECT"],
       "include-all": true,
-      "filter": "(?i)韩国|korea"
+      "filter": "(?i)🇰🇷|韩国|korea"
     },
     {
       "name": "🇯🇵 日本节点",
       "type": "select",
       "proxies": ["🇯🇵 日本自动", "DIRECT"],
       "include-all": true,
-      "filter": "(?i)日本|japan"
+      "filter": "(?i)🇯🇵|日本|japan"
     },
     {
       "name": "🇨🇳 回国节点",
       "type": "select",
       "proxies": ["DIRECT"],
       "include-all": true,
-      "filter": "(?i)中国|回国|国内|china"
+      "filter": "(?i)🇨🇳|中国|回国|国内|china"
     },
     // ---- 自动测速地区组 ----
     {
@@ -213,7 +213,7 @@ function main(config) {
       "interval": 300,
       "tolerance": 50,
       "include-all": true,
-      "filter": "(?i)香港|hongkong|hong kong",
+      "filter": "(?i)🇭🇰|香港|hongkong|hong kong",
       "hidden": true
     },
     {
@@ -223,7 +223,7 @@ function main(config) {
       "interval": 300,
       "tolerance": 50,
       "include-all": true,
-      "filter": "(?i)台湾|taiwan",
+      "filter": "(?i)🇹🇼|台湾|taiwan",
       "hidden": true
     },
     {
@@ -233,7 +233,7 @@ function main(config) {
       "interval": 300,
       "tolerance": 50,
       "include-all": true,
-      "filter": "(?i)美国|united states|america|los angeles",
+      "filter": "(?i)🇺🇸|美国|united states|america|los angeles",
       "hidden": true
     },
     {
@@ -243,7 +243,7 @@ function main(config) {
       "interval": 300,
       "tolerance": 50,
       "include-all": true,
-      "filter": "(?i)新加坡|狮城|singapore",
+      "filter": "(?i)🇸🇬|新加坡|狮城|singapore",
       "hidden": true
     },
     {
@@ -253,7 +253,7 @@ function main(config) {
       "interval": 300,
       "tolerance": 50,
       "include-all": true,
-      "filter": "(?i)韩国|korea",
+      "filter": "(?i)🇰🇷|韩国|korea",
       "hidden": true
     },
     {
@@ -263,7 +263,7 @@ function main(config) {
       "interval": 300,
       "tolerance": 50,
       "include-all": true,
-      "filter": "(?i)日本|japan",
+      "filter": "(?i)🇯🇵|日本|japan",
       "hidden": true
     }
   ];
