@@ -75,7 +75,6 @@ proxy-groups: #!replace
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
-    include-all: true
 
   # AIGC：去除了 include-all 和正则，直接引入符合 AI 要求的地区组
   - name: 🤖 AIGC
