@@ -87,7 +87,6 @@ proxy-groups: #!replace
       - 🇺🇸 美国节点
       - 🚀 代理选择  # 默认跟随主节点
       - DIRECT      # 偶尔需要直连测试时用
-    include-all: true
 
   # 2. 流媒体：给了所有节点选择权，默认置顶 DIRECT (直连)
   - name: 📺 哔哩哔哩
@@ -102,7 +101,6 @@ proxy-groups: #!replace
       - 🇸🇬 狮城节点
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
-    include-all: true
 
   - name: 📦 小黑盒
     type: select
@@ -116,7 +114,6 @@ proxy-groups: #!replace
       - 🇸🇬 狮城节点
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
-    include-all: true
 
   - name: 🌍 其他CN流媒体
     type: select
@@ -130,7 +127,6 @@ proxy-groups: #!replace
       - 🇸🇬 狮城节点
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
-    include-all: true
 
   # 3. 巴哈姆特：解锁限制，允许你选任何节点 (将台湾节点放前面方便选择)
   - name: 🖼️ 巴哈姆特
@@ -145,7 +141,6 @@ proxy-groups: #!replace
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
       - DIRECT
-    include-all: true
 
   # 4. Steam 登录/下载：解锁国家限制，置顶直连
   - name: 🎮 Steam 登录/下载
@@ -160,7 +155,6 @@ proxy-groups: #!replace
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
-    include-all: true
 
   # 5. Steam 商店/社区：解锁国家限制
   - name: 🎮 Steam 商店/社区
@@ -175,7 +169,6 @@ proxy-groups: #!replace
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
       - DIRECT
-    include-all: true
 
   # 6. Cloudflare：解锁限制
   - name: 🌩️ Cloudflare
@@ -190,7 +183,6 @@ proxy-groups: #!replace
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
       - DIRECT
-    include-all: true
 
   # 7. OneDrive：不再限制只有日本/香港，所有节点可用
   - name: ☁️ OneDrive
@@ -205,7 +197,6 @@ proxy-groups: #!replace
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
       - DIRECT
-    include-all: true
 
   # 8. 学术网站
   - name: 🎓 学术网站
@@ -220,7 +211,6 @@ proxy-groups: #!replace
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
       - DIRECT
-    include-all: true
 
   - name: 😍 Comic
     type: select
@@ -234,7 +224,6 @@ proxy-groups: #!replace
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
       - DIRECT
-    include-all: true
 
   - name: 💳 银行服务
     type: select
@@ -248,7 +237,6 @@ proxy-groups: #!replace
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
-    include-all: true
 
   - name: 🧷 全球直连
     type: select
@@ -262,7 +250,6 @@ proxy-groups: #!replace
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
-    include-all: true
 
   # 9. 国内网站：通常保持直连，但允许手动选节点
   - name: 🇨🇳 国内网站
@@ -277,7 +264,6 @@ proxy-groups: #!replace
       - 🇸🇬 狮城节点
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
-    include-all: true
 
   # 10. 广告拦截：默认拦截，但也给了 DIRECT 和 代理 的选项
   - name: 🛑 拦截广告
@@ -307,7 +293,6 @@ proxy-groups: #!replace
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
       - DIRECT
-    include-all: true
 
 # ================= 第一部分：手动选择组 (展示在软件面板) =================
   - name: 🇭🇰 香港节点
