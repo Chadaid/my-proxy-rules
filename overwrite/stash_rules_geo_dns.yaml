@@ -69,7 +69,6 @@ dns: #!replace
   nameserver-policy:
     geosite:cn:
     - 'https://dns.alidns.com/dns-query'
-    - 'https://doh.pub/dns-query'
 
 
 proxy-groups: #!replace
