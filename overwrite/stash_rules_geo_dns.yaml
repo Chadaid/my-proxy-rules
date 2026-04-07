@@ -1,10 +1,15 @@
+name: 代理规则与DNS完全覆盖配置
+desc: 采用完全覆盖方式替换原有 allow-lan、geox-url、dns、proxy-groups 和 rules
+
 allow-lan: true
-geox-url:
+
+geox-url: #!replace
   geoip: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/geoip.dat'
   geosite: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/geosite.dat'
   mmdb: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/country.mmdb'
   asn: 'https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb'
-dns:
+
+dns: #!replace
   enable: true
   listen: ':53'
   enhanced-mode: 'fake-ip'
@@ -62,10 +67,12 @@ dns:
   - 'tls://223.5.5.5'
   direct-nameserver: []
   nameserver-policy:
-    'geosite:cn': 'https://dns.alidns.com/dns-query'
+    geosite:cn:
+    - 'https://dns.alidns.com/dns-query'
+    - 'https://doh.pub/dns-query'
 
 
-proxy-groups:
+proxy-groups: #!replace
   # 1. 主节点选择：默认代理开关
   # include-all: true 会把所有机场节点自动加进来
 # 1. 主代理选择
@@ -393,7 +400,7 @@ proxy-groups:
     filter: "(?i)日|jp|japan"
     hidden: true
 
-rules:
+rules: #!replace
   # 🛑 拦截广告 (注意：你截图里选了 DIRECT 直连，通常广告应该选 REJECT 拒绝，此处指向你的策略组)
   - GEOSITE,category-ads-all,🛑 拦截广告
 
@@ -452,7 +459,7 @@ rules:
   - DOMAIN,livew.l.qq.com,🧷 全球直连
   - DOMAIN,vd.l.qq.com,🧷 全球直连
   - DOMAIN,analytics.strava.com,🧷 全球直连
-  - DOMAIN,msg.umeng.com,🧷 全球直连
+  - DOMAIN,msg.umeng.com,🧷 全球直简单
   - DOMAIN,msg.umengcloud.com,🧷 全球直连
   - DOMAIN,tracking.miui.com,🧷 全球直连
   - DOMAIN,app.adjust.com,🧷 全球直连
