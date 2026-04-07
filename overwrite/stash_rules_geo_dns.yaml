@@ -14,7 +14,7 @@ dns:
   use-hosts: false
   use-system-hosts: true
   ipv6: false
-  fake-ip-filter:
+  fake-ip-filter: #!replace
     - '*.lan'
     - '*.local'
     - '*.arpa'
@@ -32,7 +32,7 @@ dns:
     - '*.biliapi.net'
     - '*.biliapi.com'
     - '*.mcdn.bilivideo.cn'
-  default-nameserver:
+  default-nameserver: #!replace
     - 'system'
     - '223.5.5.5'
     - '119.29.29.29'
@@ -40,12 +40,12 @@ dns:
     - '2001:4860:4860::8888'
   
   # 【修改点 1】: 将国内 DNS 作为主力解析（Stash 官方推荐做法）
-  nameserver:
+  nameserver: #!replace
     - 'https://dns.alidns.com/dns-query'
     - 'https://doh.pub/dns-query'
   
   # 【修改点 2】: 将国外防污染 DNS 放入 fallback
-  fallback:
+  fallback: #!replace
     - 'https://1.1.1.1/dns-query'
     - 'https://8.8.8.8/dns-query'
   
@@ -60,7 +60,7 @@ dns:
       - '+.facebook.com'
       - '+.youtube.com'
 
-proxy-groups:
+proxy-groups: #!replace
   # 1. 主节点选择：默认代理开关
   # include-all: true 会把所有机场节点自动加进来
 # 1. 主代理选择
@@ -420,7 +420,7 @@ proxy-groups:
     filter: "(?i)日|jp|japan"
     hidden: true
 
-rules:
+rules: #!replace
   # 🛑 拦截广告 (注意：你截图里选了 DIRECT 直连，通常广告应该选 REJECT 拒绝，此处指向你的策略组)
   - GEOSITE,category-ads-all,🛑 拦截广告
 
