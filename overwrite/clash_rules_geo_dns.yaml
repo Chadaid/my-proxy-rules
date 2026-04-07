@@ -74,13 +74,13 @@ proxy-groups:
   - name: 🚀 代理选择
     type: select
     proxies:
+      - DIRECT
       - 🇭🇰 香港节点
       - 🇹🇼 台湾节点
       - 🇺🇸 美国节点
       - 🇸🇬 狮城节点
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
-      - DIRECT
 
   # AIGC：去除了 include-all 和正则，直接引入符合 AI 要求的地区组
   - name: 🤖 AIGC
