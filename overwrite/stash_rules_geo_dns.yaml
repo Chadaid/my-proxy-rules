@@ -9,14 +9,11 @@ geox-url: #!replace
   mmdb: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/country.mmdb'
   asn: 'https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb'
 
-dns: #!replace
+dns:
   enable: true
   listen: ':53'
   enhanced-mode: 'fake-ip'
   fake-ip-range: '198.18.0.1/16'
-  fake-ip-filter-mode: 'blacklist'
-  prefer-h3: true
-  respect-rules: true
   use-hosts: false
   use-system-hosts: true
   ipv6: false
@@ -38,36 +35,39 @@ dns: #!replace
     - '*.biliapi.net'
     - '*.biliapi.com'
     - '*.mcdn.bilivideo.cn'
-    - 'pemby.ednovas.org'
   default-nameserver:
     - 'system'
     - '223.5.5.5'
     - '119.29.29.29'
     - '2400:3200::1'
     - '2001:4860:4860::8888'
+  
+  # 【修改点 1】: 将国内 DNS 作为主力解析（Stash 官方推荐做法）
   nameserver:
+    - 'https://dns.alidns.com/dns-query'
+    - 'https://doh.pub/dns-query'
+  
+  # 【修改点 2】: 将国外防污染 DNS 放入 fallback
+  fallback:
     - 'https://1.1.1.1/dns-query'
     - 'https://8.8.8.8/dns-query'
-  direct-nameserver-follow-policy: false
+  
   fallback-filter:
-    geoip: false
+    geoip: true # 【修改点 3】: 开启 GeoIP 过滤，确保国内外 DNS 精准分流
     geoip-code: 'CN'
     ipcidr:
-    - '240.0.0.0/4'
-    - '0.0.0.0/32'
+      - '240.0.0.0/4'
+      - '0.0.0.0/32'
     domain:
-    - '+.google.com'
-    - '+.facebook.com'
-    - '+.youtube.com'
-  fallback: []
-  proxy-server-nameserver:
-    - 'https://doh.pub/dns-query'
-    - 'https://dns.alidns.com/dns-query'
-    - 'https://1.1.1.1/dns-query'
-    - 'tls://223.5.5.5'
-  direct-nameserver: []
+      - '+.google.com'
+      - '+.facebook.com'
+      - '+.youtube.com'
+
+  # 【修改点 4】: 改为 Stash 原生支持的单字符串和域名格式
   nameserver-policy:
-    'geosite:cn': 'https://dns.alidns.com/dns-query'
+    '+.qq.com': 'https://doh.pub/dns-query'
+    '+.taobao.com': 'https://dns.alidns.com/dns-query'
+    '+.baidu.com': '114.114.114.114'
 
 
 proxy-groups: #!replace
