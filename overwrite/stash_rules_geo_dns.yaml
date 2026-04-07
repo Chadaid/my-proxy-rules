@@ -6,7 +6,7 @@ geox-url:
   geosite: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/geosite.dat'
   mmdb: 'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/country.mmdb'
   asn: 'https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb'
-dns:
+dns: #!replace
   enable: true
   listen: ':53'
   enhanced-mode: 'fake-ip'
@@ -14,7 +14,7 @@ dns:
   use-hosts: false
   use-system-hosts: true
   ipv6: false
-  fake-ip-filter: #!replace
+  fake-ip-filter:
     - '*.lan'
     - '*.local'
     - '*.arpa'
@@ -32,7 +32,7 @@ dns:
     - '*.biliapi.net'
     - '*.biliapi.com'
     - '*.mcdn.bilivideo.cn'
-  default-nameserver: #!replace
+  default-nameserver:
     - 'system'
     - '223.5.5.5'
     - '119.29.29.29'
@@ -40,12 +40,12 @@ dns:
     - '2001:4860:4860::8888'
   
   # 【修改点 1】: 将国内 DNS 作为主力解析（Stash 官方推荐做法）
-  nameserver: #!replace
+  nameserver:
     - 'https://dns.alidns.com/dns-query'
     - 'https://doh.pub/dns-query'
   
   # 【修改点 2】: 将国外防污染 DNS 放入 fallback
-  fallback: #!replace
+  fallback:
     - 'https://1.1.1.1/dns-query'
     - 'https://8.8.8.8/dns-query'
   
@@ -62,7 +62,7 @@ dns:
 
 proxy-groups: #!replace
   # 1. 主节点选择：默认代理开关
-  #  会把所有机场节点自动加进来
+  # include-all: true 会把所有机场节点自动加进来
 # 1. 主代理选择
   - name: 🚀 代理选择
     type: select
@@ -75,7 +75,7 @@ proxy-groups: #!replace
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
-    
+    include-all: true
 
   # AIGC：去除了 include-all 和正则，直接引入符合 AI 要求的地区组
   - name: 🤖 AIGC
@@ -87,6 +87,7 @@ proxy-groups: #!replace
       - 🇺🇸 美国节点
       - 🚀 代理选择  # 默认跟随主节点
       - DIRECT      # 偶尔需要直连测试时用
+    include-all: true
 
   # 2. 流媒体：给了所有节点选择权，默认置顶 DIRECT (直连)
   - name: 📺 哔哩哔哩
@@ -101,6 +102,7 @@ proxy-groups: #!replace
       - 🇸🇬 狮城节点
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
+    include-all: true
 
   - name: 📦 小黑盒
     type: select
@@ -114,6 +116,7 @@ proxy-groups: #!replace
       - 🇸🇬 狮城节点
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
+    include-all: true
 
   - name: 🌍 其他CN流媒体
     type: select
@@ -127,6 +130,7 @@ proxy-groups: #!replace
       - 🇸🇬 狮城节点
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
+    include-all: true
 
   # 3. 巴哈姆特：解锁限制，允许你选任何节点 (将台湾节点放前面方便选择)
   - name: 🖼️ 巴哈姆特
@@ -141,6 +145,7 @@ proxy-groups: #!replace
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
       - DIRECT
+    include-all: true
 
   # 4. Steam 登录/下载：解锁国家限制，置顶直连
   - name: 🎮 Steam 登录/下载
@@ -155,6 +160,7 @@ proxy-groups: #!replace
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
+    include-all: true
 
   # 5. Steam 商店/社区：解锁国家限制
   - name: 🎮 Steam 商店/社区
@@ -169,6 +175,7 @@ proxy-groups: #!replace
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
       - DIRECT
+    include-all: true
 
   # 6. Cloudflare：解锁限制
   - name: 🌩️ Cloudflare
@@ -183,6 +190,7 @@ proxy-groups: #!replace
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
       - DIRECT
+    include-all: true
 
   # 7. OneDrive：不再限制只有日本/香港，所有节点可用
   - name: ☁️ OneDrive
@@ -197,6 +205,7 @@ proxy-groups: #!replace
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
       - DIRECT
+    include-all: true
 
   # 8. 学术网站
   - name: 🎓 学术网站
@@ -211,6 +220,7 @@ proxy-groups: #!replace
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
       - DIRECT
+    include-all: true
 
   - name: 😍 Comic
     type: select
@@ -224,6 +234,7 @@ proxy-groups: #!replace
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
       - DIRECT
+    include-all: true
 
   - name: 💳 银行服务
     type: select
@@ -237,6 +248,7 @@ proxy-groups: #!replace
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
+    include-all: true
 
   - name: 🧷 全球直连
     type: select
@@ -250,6 +262,7 @@ proxy-groups: #!replace
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
+    include-all: true
 
   # 9. 国内网站：通常保持直连，但允许手动选节点
   - name: 🇨🇳 国内网站
@@ -264,6 +277,7 @@ proxy-groups: #!replace
       - 🇸🇬 狮城节点
       - 🇰🇷 韩国节点
       - 🇯🇵 日本节点
+    include-all: true
 
   # 10. 广告拦截：默认拦截，但也给了 DIRECT 和 代理 的选项
   - name: 🛑 拦截广告
@@ -293,62 +307,63 @@ proxy-groups: #!replace
       - 🇯🇵 日本节点
       - 🇨🇳 回国节点
       - DIRECT
+    include-all: true
 
-  # ================= 第一部分：手动选择组 (展示在软件面板) =================
+# ================= 第一部分：手动选择组 (展示在软件面板) =================
   - name: 🇭🇰 香港节点
     type: select
     proxies:
       - 🇭🇰 香港自动
       - DIRECT
-    
-    filter: "(?i)港|hk|hongkong|hong kong"
+    include-all: true
+    filter: "(?i)香港|hongkong|hong kong"
 
   - name: 🇹🇼 台湾节点
     type: select
     proxies:
       - 🇹🇼 台湾自动
       - DIRECT
-    
-    filter: "(?i)台|tw|taiwan"
+    include-all: true
+    filter: "(?i)台湾|taiwan"
 
   - name: 🇺🇸 美国节点
     type: select
     proxies:
       - 🇺🇸 美国自动
       - DIRECT
-    
-    filter: "(?i)美|us|united states|america|los angeles"
+    include-all: true
+    filter: "(?i)美国|united states|america|los angeles"
 
   - name: 🇸🇬 狮城节点
     type: select
     proxies:
       - 🇸🇬 狮城自动
       - DIRECT
-    
-    filter: "(?i)新|坡|狮城|sg|singapore"
+    include-all: true
+    filter: "(?i)新加坡|狮城|singapore"
 
   - name: 🇰🇷 韩国节点
     type: select
     proxies:
       - 🇰🇷 韩国自动
       - DIRECT
-    
-    filter: "(?i)韩|kr|korea"
+    include-all: true
+    filter: "(?i)韩国|korea"
 
   - name: 🇯🇵 日本节点
     type: select
     proxies:
       - 🇯🇵 日本自动
       - DIRECT
-    
-    filter: "(?i)日本|jp|japan"
+    include-all: true
+    filter: "(?i)日本|japan"
 
   - name: 🇨🇳 回国节点
     type: select
     proxies:
       - DIRECT
-    
-    filter: "(?i)中|国|回国|cn|china"
+    include-all: true
+    filter: "(?i)中国|回国|国内|china"
 
   # ================= 第二部分：自动测速组 (移至末尾，并在面板中隐藏) =================
   - name: 🇭🇰 香港自动
@@ -356,8 +371,8 @@ proxy-groups: #!replace
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
-    
-    filter: "(?i)港|hk|hongkong|hong kong"
+    include-all: true
+    filter: "(?i)香港|hongkong|hong kong"
     hidden: true # 关键参数：在面板中隐藏此组
 
   - name: 🇹🇼 台湾自动
@@ -365,8 +380,8 @@ proxy-groups: #!replace
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
-    
-    filter: "(?i)台|tw|taiwan"
+    include-all: true
+    filter: "(?i)台湾|taiwan"
     hidden: true
 
   - name: 🇺🇸 美国自动
@@ -374,8 +389,8 @@ proxy-groups: #!replace
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
-    
-    filter: "(?i)美|us|united states|america|los angeles"
+    include-all: true
+    filter: "(?i)美国|united states|america|los angeles"
     hidden: true
 
   - name: 🇸🇬 狮城自动
@@ -383,8 +398,8 @@ proxy-groups: #!replace
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
-    
-    filter: "(?i)新|坡|狮城|sg|singapore"
+    include-all: true
+    filter: "(?i)新加坡|狮城|singapore"
     hidden: true
 
   - name: 🇰🇷 韩国自动
@@ -392,8 +407,8 @@ proxy-groups: #!replace
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
-    
-    filter: "(?i)韩|kr|korea"
+    include-all: true
+    filter: "(?i)韩国|korea"
     hidden: true
 
   - name: 🇯🇵 日本自动
@@ -401,8 +416,8 @@ proxy-groups: #!replace
     url: http://www.gstatic.com/generate_204
     interval: 300
     tolerance: 50
-    
-    filter: "(?i)日本|jp|japan"
+    include-all: true
+    filter: "(?i)日本|japan"
     hidden: true
 
 rules: #!replace
