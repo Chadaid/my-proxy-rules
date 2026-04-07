@@ -15,7 +15,7 @@
   * `clash_dns.yaml`：YAML 格式的 DNS 覆写配置片段，适用于支持 Merge/Mixin 的客户端。
   * `script_clash_dns.js`：JavaScript 预处理脚本，适用于 Clash Verge 等支持 JS Parser 的客户端。
 * **基于 GeoData 的轻量匹配（🆕 新增）：**
-  * `clash_rule_geo_dns.yaml`：使用 `geosite` / `geoip` 数据代替海量 `DOMAIN` 规则的 YAML 配置，体积更小，解析逻辑更简洁，推荐 Meta 内核用户使用。
+  * `clash_rules_geo_dns.yaml`：使用 `geosite` / `geoip` 数据代替海量 `DOMAIN` 规则的 YAML 配置，体积更小，解析逻辑更简洁，推荐 Meta 内核用户使用。
 
 ### 2. 基于传统 Fallback 策略 (Legacy) 版本
 使用传统的 `nameserver` + `fallback` 策略，兼容较老版本的 Clash 内核（如原版 Premium 内核）。
@@ -24,7 +24,7 @@
   * `clash_dns_legacy.yaml`：传统的 YAML 格式 DNS 覆写配置片段。
   * `script_clash_dns_legacy.js`：传统的 JavaScript 预处理脚本。
 * **基于 GeoData 的传统匹配（🆕 新增）：**
-  * `script_clash_geo_dns_legacy.js`：结合传统的 fallback 机制与 `GeoData` 匹配方式的 JavaScript 预处理脚本。
+  * `script_clash_rules_geo_dns.js`：结合传统的 fallback 机制与 `GeoData` 匹配方式的 JavaScript 预处理脚本。
 
 ## 💡 DOMAIN 版本 vs GeoData 版本该怎么选？
 
@@ -36,11 +36,11 @@
 ### 使用 JS 脚本 (推荐)
 1. 打开客户端的 **订阅设置** 或 **配置预处理 (Merge/Script)** 界面。
 2. 新建一个 JS 类型的预处理规则。
-3. 根据你的需求，将选定的 JS 脚本（如 `script_clash_dns.js` 或 `script_clash_geo_dns_legacy.js`）中的代码复制进去，并应用到你的订阅链接上。
+3. 根据你的需求，将选定的 JS 脚本（如 `script_clash_dns.js` 或 `script_clash_rules_geo_dns.js`）中的代码复制进去，并应用到你的订阅链接上。
 
 ### 使用 YAML 片段
 1. 找到客户端的 **Merge / Mixin** 功能。
-2. 根据你的需求，将选定的 YAML 文件（如 `clash_dns.yaml` 或 `clash_rule_geo_dns.yaml`）中的内容粘贴到对应的文本框中。
+2. 根据你的需求，将选定的 YAML 文件（如 `clash_dns.yaml` 或 `clash_rules_geo_dns.yaml`）中的内容粘贴到对应的文本框中。
 3. 保存并重载配置。
 
 ## ⚠️ 注意事项
