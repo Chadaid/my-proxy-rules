@@ -67,7 +67,7 @@ dns: #!replace
     - 'tls://223.5.5.5'
   direct-nameserver: []
   nameserver-policy:
-    geosite:cn:
+    'geosite:cn':
     - 'https://dns.alidns.com/dns-query'
 
 
