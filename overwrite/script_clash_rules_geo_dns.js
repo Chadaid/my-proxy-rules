@@ -11,7 +11,7 @@ function main(config) {
   // 2. 覆写 DNS 配置
   config["dns"] = {
     "enable": true,
-    "listen": ":53",
+    "listen": ":1053",
     "enhanced-mode": "fake-ip",
     "fake-ip-range": "198.18.0.1/16",
     "fake-ip-filter-mode": "blacklist",
