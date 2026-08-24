@@ -63,7 +63,8 @@ function main(config) {
     {
       "name": "🤖 AIGC",
       "type": "select",
-      "proxies": ["🇹🇼 台湾节点", "🇸🇬 狮城节点", "🇯🇵 日本节点", "🇺🇸 美国节点", "🚀 代理选择", "DIRECT"],
+      // 变更点: AIGC 中加入了 🇭🇰 香港节点
+      "proxies": ["🇹🇼 台湾节点", "🇸🇬 狮城节点", "🇯🇵 日本节点", "🇺🇸 美国节点", "🇭🇰 香港节点", "🚀 代理选择", "DIRECT"],
       "include-all": true
     },
     {
@@ -269,18 +270,9 @@ function main(config) {
   ];
 
   // 4. 覆写路由规则 (Rules)
+  // 变更点: 重新排列了规则优先级，让全球直连放在最前面，银行服务/国内/Comic/AIGC均调整到直连判定后面。
   config["rules"] =[
     "GEOSITE,category-ads-all,🛑 拦截广告",
-    "DOMAIN,pemby.ednovas.org,😍 Comic",
-    "DOMAIN,ee.ednovas.org,😍 Comic",
-    "GEOSITE,18comic,😍 Comic",
-    "GEOSITE,pixiv,😍 Comic",
-    "GEOSITE,category-ai-!cn,🤖 AIGC",
-    "GEOSITE,apple-intelligence,🤖 AIGC",
-    "GEOSITE,category-bank-cn,💳 银行服务",
-    "GEOSITE,hsbc,💳 银行服务",
-    "GEOSITE,icbc,💳 银行服务",
-    "GEOSITE,cnbc,💳 银行服务",
     "DOMAIN-SUFFIX,acl4.ssr,🧷 全球直连",
     "DOMAIN-SUFFIX,ip6-localhost,🧷 全球直连",
     "DOMAIN-SUFFIX,ip6-loopback,🧷 全球直连",
@@ -338,6 +330,18 @@ function main(config) {
     "PROCESS-NAME,DownloadService.exe,🧷 全球直连",
     "PROCESS-NAME,Weiyun.exe,🧷 全球直连",
     "PROCESS-NAME,baidunetdisk.exe,🧷 全球直连",
+    "GEOSITE,category-bank-cn,💳 银行服务",
+    "GEOSITE,hsbc,💳 银行服务",
+    "GEOSITE,icbc,💳 银行服务",
+    "GEOSITE,cnbc,💳 银行服务",
+    "GEOSITE,cn,🇨🇳 国内网站",
+    "GEOIP,cn,🇨🇳 国内网站",
+    "DOMAIN,pemby.ednovas.org,😍 Comic",
+    "DOMAIN,ee.ednovas.org,😍 Comic",
+    "GEOSITE,18comic,😍 Comic",
+    "GEOSITE,pixiv,😍 Comic",
+    "GEOSITE,category-ai-!cn,🤖 AIGC",
+    "GEOSITE,apple-intelligence,🤖 AIGC",
     "GEOSITE,bahamut,🖼️ 巴哈姆特",
     "GEOSITE,bilibili,📺 哔哩哔哩",
     "GEOSITE,bilibili2,📺 哔哩哔哩",
@@ -359,8 +363,6 @@ function main(config) {
     "DOMAIN-SUFFIX,steamserver.net,🎮 Steam 登录/下载",
     "DOMAIN-SUFFIX,client-download.steampowered.com,🎮 Steam 登录/下载",
     "GEOSITE,steam,🎮 Steam 商店/社区",
-    "GEOSITE,cn,🇨🇳 国内网站",
-    "GEOIP,cn,🇨🇳 国内网站",
     "GEOSITE,geolocation-!cn,🚀 代理选择",
     "MATCH,🐟 漏网之鱼"
   ];
