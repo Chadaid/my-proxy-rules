@@ -6,7 +6,7 @@ geox-url:
   asn: 'https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb'
 dns:
   enable: true
-  listen: ':53'
+  listen: ':1053'
   enhanced-mode: 'fake-ip'
   fake-ip-range: '198.18.0.1/16'
   fake-ip-filter-mode: 'blacklist'
