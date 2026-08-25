@@ -464,10 +464,6 @@ rules: #!replace
   - GEOSITE,icbc,💳 银行服务
   - GEOSITE,cnbc,💳 银行服务
 
-  # 🇨🇳 国内网站 (包含国内域名和国内 IP)
-  - GEOSITE,cn,🇨🇳 国内网站
-  - GEOIP,cn,🇨🇳 国内网站
-
   # 😍 Comic
   - DOMAIN,pemby.ednovas.org,😍 Comic
   - DOMAIN,ee.ednovas.org,😍 Comic
@@ -493,6 +489,10 @@ rules: #!replace
   - GEOSITE,douyin,🌍 其他CN流媒体
   - GEOSITE,douyu,🌍 其他CN流媒体
   - GEOSITE,huya,🌍 其他CN流媒体
+
+  # 🇨🇳 国内网站 (包含国内域名和国内 IP)
+  - GEOSITE,cn,🇨🇳 国内网站
+  - GEOIP,cn,🇨🇳 国内网站
 
   # ☁️ OneDrive
   - GEOSITE,onedrive,☁️ OneDrive
