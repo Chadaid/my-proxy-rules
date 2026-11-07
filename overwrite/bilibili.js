@@ -1,0 +1,633 @@
+function main(config) {
+  // 1. 基础配置
+  config["allow-lan"] = true;
+  config["unified-delay"] = true;
+  config["tcp-concurrent"] = true;
+
+  // 2. Geo 数据库配置
+  config["geox-url"] = {
+    "geoip": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/geoip.dat",
+    "geosite": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/geosite.dat",
+    "mmdb": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/country.mmdb",
+    "asn": "https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb"
+  };
+
+  // 3. 监听器配置（供其他 App 独立调用端口分流）
+  config["listeners"] = [
+    {
+      "name": "bili-hk",
+      "type": "mixed",
+      "port": 7891,
+      "listen": "127.0.0.1",
+      "proxy": "🇭🇰 香港节点"
+    },
+    {
+      "name": "bili-tw",
+      "type": "mixed",
+      "port": 7892,
+      "listen": "127.0.0.1",
+      "proxy": "🇹🇼 台湾节点"
+    },
+    {
+      "name": "bili-cn",
+      "type": "mixed",
+      "port": 7893,
+      "listen": "127.0.0.1",
+      "proxy": "🇨🇳 回国节点"
+    },
+    {
+      "name": "bili-sg",
+      "type": "mixed",
+      "port": 7894,
+      "listen": "127.0.0.1",
+      "proxy": "🇸🇬 狮城节点"
+    }
+  ];
+
+  // 4. 域名嗅探配置
+  config["sniffer"] = {
+    "enable": true,
+    "parse-pure-ip": true,
+    "override-destination": false,
+    "sniff": {
+      "HTTP": {
+        "ports": [80, "8080-8880"],
+        "override-destination": true
+      },
+      "TLS": {
+        "ports": [443, 8443]
+      },
+      "QUIC": {
+        "ports": [443, 8443]
+      }
+    },
+    "skip-domain": [
+      "Mijia Cloud",
+      "+.push.apple.com"
+    ]
+  };
+
+  // 5. DNS 配置
+  config["dns"] = {
+    "enable": true,
+    "listen": "0.0.0.0:1053",
+    "enhanced-mode": "fake-ip",
+    "fake-ip-range": "198.18.0.1/16",
+    "fake-ip-filter-mode": "blacklist",
+    "prefer-h3": true,
+    "respect-rules": true,
+    "use-hosts": false,
+    "use-system-hosts": true,
+    "ipv6": false,
+    "fake-ip-filter": [
+      "*.lan",
+      "*.local",
+      "*.arpa",
+      "time.*.com",
+      "ntp.*.com",
+      "+.market.xiaomi.com",
+      "localhost.ptlogin2.qq.com",
+      "*.msftncsi.com",
+      "www.msftconnecttest.com",
+      "geosite:connectivity-check",
+      "geosite:private",
+      "geosite:bilibili",
+      "pemby.ednovas.org"
+    ],
+    "default-nameserver": [
+      "223.5.5.5",
+      "119.29.29.29"
+    ],
+    "proxy-server-nameserver": [
+      "https://doh.pub/dns-query",
+      "https://dns.alidns.com/dns-query",
+      "tls://223.5.5.5"
+    ],
+    "nameserver": [
+      "https://1.1.1.1/dns-query",
+      "https://8.8.8.8/dns-query"
+    ],
+    "direct-nameserver-follow-policy": false,
+    "direct-nameserver": [],
+    "nameserver-policy": {
+      "geosite:cn,private,bilibili": [
+        "https://dns.alidns.com/dns-query",
+        "https://doh.pub/dns-query"
+      ]
+    }
+  };
+
+  // 6. 策略组 (Proxy Groups) - 保持原样，修正 JS 字符串转义
+  config["proxy-groups"] = [
+    // 1. 主代理选择
+    {
+      "name": "🚀 代理选择",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点",
+        "🇨🇳 回国节点"
+      ],
+      "include-all": true
+    },
+    // AIGC
+    {
+      "name": "🤖 AIGC",
+      "type": "select",
+      "proxies": [
+        "🇹🇼 台湾节点",
+        "🇸🇬 狮城节点",
+        "🇯🇵 日本节点",
+        "🇺🇸 美国节点",
+        "🇭🇰 香港节点",
+        "🚀 代理选择",
+        "DIRECT"
+      ],
+      "include-all": true
+    },
+    // 2. 流媒体
+    {
+      "name": "📺 哔哩哔哩",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "🚀 代理选择",
+        "🇨🇳 回国节点",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点"
+      ],
+      "include-all": true
+    },
+    {
+      "name": "📦 小黑盒",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "🚀 代理选择",
+        "🇨🇳 回国节点",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点"
+      ],
+      "include-all": true
+    },
+    {
+      "name": "🌍 其他CN流媒体",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "🚀 代理选择",
+        "🇨🇳 回国节点",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点"
+      ],
+      "include-all": true
+    },
+    // 3. 巴哈姆特
+    {
+      "name": "🖼️ 巴哈姆特",
+      "type": "select",
+      "proxies": [
+        "🇹🇼 台湾节点",
+        "🚀 代理选择",
+        "🇭🇰 香港节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点",
+        "🇨🇳 回国节点",
+        "DIRECT"
+      ],
+      "include-all": true
+    },
+    // 4. Steam 登录/下载
+    {
+      "name": "🎮 Steam 登录/下载",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "🚀 代理选择",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点",
+        "🇨🇳 回国节点"
+      ],
+      "include-all": true
+    },
+    // 5. Steam 商店/社区
+    {
+      "name": "🎮 Steam 商店/社区",
+      "type": "select",
+      "proxies": [
+        "🚀 代理选择",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点",
+        "🇨🇳 回国节点",
+        "DIRECT"
+      ],
+      "include-all": true
+    },
+    // 6. Cloudflare
+    {
+      "name": "🌩️ Cloudflare",
+      "type": "select",
+      "proxies": [
+        "🚀 代理选择",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点",
+        "🇨🇳 回国节点",
+        "DIRECT"
+      ],
+      "include-all": true
+    },
+    // 7. OneDrive
+    {
+      "name": "☁️ OneDrive",
+      "type": "select",
+      "proxies": [
+        "🚀 代理选择",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点",
+        "🇨🇳 回国节点",
+        "DIRECT"
+      ],
+      "include-all": true
+    },
+    // 8. 学术网站
+    {
+      "name": "🎓 学术网站",
+      "type": "select",
+      "proxies": [
+        "🚀 代理选择",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点",
+        "🇨🇳 回国节点",
+        "DIRECT"
+      ],
+      "include-all": true
+    },
+    {
+      "name": "😍 Comic",
+      "type": "select",
+      "proxies": [
+        "🚀 代理选择",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点",
+        "🇨🇳 回国节点",
+        "DIRECT"
+      ],
+      "include-all": true
+    },
+    {
+      "name": "💳 银行服务",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "🚀 代理选择",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点",
+        "🇨🇳 回国节点"
+      ],
+      "include-all": true
+    },
+    {
+      "name": "🧷 全球直连",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "🚀 代理选择",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点",
+        "🇨🇳 回国节点"
+      ],
+      "include-all": true
+    },
+    // 9. 国内网站
+    {
+      "name": "🇨🇳 国内网站",
+      "type": "select",
+      "proxies": [
+        "🇨🇳 回国节点",
+        "DIRECT",
+        "🚀 代理选择",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点"
+      ],
+      "include-all": true
+    },
+    // 10. 广告拦截
+    {
+      "name": "🛑 拦截广告",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "REJECT",
+        "🚀 代理选择",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点",
+        "🇨🇳 回国节点"
+      ]
+    },
+    // 11. 漏网之鱼
+    {
+      "name": "🐟 漏网之鱼",
+      "type": "select",
+      "proxies": [
+        "🚀 代理选择",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇺🇸 美国节点",
+        "🇸🇬 狮城节点",
+        "🇰🇷 韩国节点",
+        "🇯🇵 日本节点",
+        "🇨🇳 回国节点",
+        "DIRECT"
+      ],
+      "include-all": true
+    },
+
+    // ================= 第一部分：手动选择组 (展示在软件面板) =================
+    {
+      "name": "🇭🇰 香港节点",
+      "type": "select",
+      "proxies": [
+        "🇭🇰 香港自动",
+        "DIRECT"
+      ],
+      "include-all": true,
+      "filter": "(?i)🇭🇰|香港|(\\b(HK|HongKong|Hong Kong)\\b)"
+    },
+    {
+      "name": "🇹🇼 台湾节点",
+      "type": "select",
+      "proxies": [
+        "🇹🇼 台湾自动",
+        "DIRECT"
+      ],
+      "include-all": true,
+      "filter": "(?i)🇹🇼|台湾|(\\b(TW|TaiWan|Taiwan)\\b)"
+    },
+    {
+      "name": "🇺🇸 美国节点",
+      "type": "select",
+      "proxies": [
+        "🇺🇸 美国自动",
+        "DIRECT"
+      ],
+      "include-all": true,
+      "filter": "(?i)🇺🇸|美国|洛杉矶|圣何塞|(\\b(US|United States|America|Los Angeles)\\b)"
+    },
+    {
+      "name": "🇸🇬 狮城节点",
+      "type": "select",
+      "proxies": [
+        "🇸🇬 狮城自动",
+        "DIRECT"
+      ],
+      "include-all": true,
+      "filter": "(?i)🇸🇬|新加坡|狮城|(\\b(SG|Singapore)\\b)"
+    },
+    {
+      "name": "🇰🇷 韩国节点",
+      "type": "select",
+      "proxies": [
+        "🇰🇷 韩国自动",
+        "DIRECT"
+      ],
+      "include-all": true,
+      "filter": "(?i)🇰🇷|韩国|首尔|(\\b(KR|Korea)\\b)"
+    },
+    {
+      "name": "🇯🇵 日本节点",
+      "type": "select",
+      "proxies": [
+        "🇯🇵 日本自动",
+        "DIRECT"
+      ],
+      "include-all": true,
+      "filter": "(?i)🇯🇵|日本|东京|大阪|(\\b(JP|Japan)\\b)"
+    },
+    {
+      "name": "🇨🇳 回国节点",
+      "type": "select",
+      "proxies": [
+        "DIRECT"
+      ],
+      "include-all": true,
+      "filter": "(?i)🇨🇳|中国|回国|国内|(\\b(CN|China)\\b)",
+      "exclude-filter": "(?i)香港|台湾|澳门|剩余|流量|到期|官网"
+    },
+
+    // ================= 第二部分：自动测速组 (移至末尾，并在面板中隐藏) =================
+    {
+      "name": "🇭🇰 香港自动",
+      "type": "url-test",
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50,
+      "lazy": true,
+      "include-all": true,
+      "filter": "(?i)🇭🇰|香港|(\\b(HK|HongKong|Hong Kong)\\b)",
+      "hidden": true
+    },
+    {
+      "name": "🇹🇼 台湾自动",
+      "type": "url-test",
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50,
+      "lazy": true,
+      "include-all": true,
+      "filter": "(?i)🇹🇼|台湾|(\\b(TW|TaiWan|Taiwan)\\b)",
+      "hidden": true
+    },
+    {
+      "name": "🇺🇸 美国自动",
+      "type": "url-test",
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50,
+      "lazy": true,
+      "include-all": true,
+      "filter": "(?i)🇺🇸|美国|洛杉矶|圣何塞|(\\b(US|United States|America|Los Angeles)\\b)",
+      "hidden": true
+    },
+    {
+      "name": "🇸🇬 狮城自动",
+      "type": "url-test",
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50,
+      "lazy": true,
+      "include-all": true,
+      "filter": "(?i)🇸🇬|新加坡|狮城|(\\b(SG|Singapore)\\b)",
+      "hidden": true
+    },
+    {
+      "name": "🇰🇷 韩国自动",
+      "type": "url-test",
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50,
+      "lazy": true,
+      "include-all": true,
+      "filter": "(?i)🇰🇷|韩国|首尔|(\\b(KR|Korea)\\b)",
+      "hidden": true
+    },
+    {
+      "name": "🇯🇵 日本自动",
+      "type": "url-test",
+      "url": "http://www.gstatic.com/generate_204",
+      "interval": 300,
+      "tolerance": 50,
+      "lazy": true,
+      "include-all": true,
+      "filter": "(?i)🇯🇵|日本|东京|大阪|(\\b(JP|Japan)\\b)",
+      "hidden": true
+    }
+  ];
+
+  // 7. 分流规则 (Rules) - 完全保持原样
+  config["rules"] = [
+    // 1. 局域网与下载进程优先直连
+    "GEOSITE,private,🧷 全球直连",
+    "DOMAIN-SUFFIX,acl4.ssr,🧷 全球直连",
+    "DOMAIN-SUFFIX,ol.epicgames.com,🧷 全球直连",
+    "DOMAIN-SUFFIX,dizhensubao.getui.com,🧷 全球直连",
+    "DOMAIN,dl.google.com,🧷 全球直连",
+    "DOMAIN,origin-a.akamaihd.net,🧷 全球直连",
+    "DOMAIN,xivanalysis.com,🧷 全球直连",
+    "DOMAIN-SUFFIX,smtp,🧷 全球直连",
+    "DOMAIN-KEYWORD,aria2,🧷 全球直连",
+    "PROCESS-NAME,aria2c.exe,🧷 全球直连",
+    "PROCESS-NAME,fdm.exe,🧷 全球直连",
+    "PROCESS-NAME,Folx.exe,🧷 全球直连",
+    "PROCESS-NAME,NetTransport.exe,🧷 全球直连",
+    "PROCESS-NAME,Thunder.exe,🧷 全球直连",
+    "PROCESS-NAME,Transmission.exe,🧷 全球直连",
+    "PROCESS-NAME,uTorrent.exe,🧷 全球直连",
+    "PROCESS-NAME,WebTorrent.exe,🧷 全球直连",
+    "PROCESS-NAME,WebTorrent Helper.exe,🧷 全球直连",
+    "PROCESS-NAME,DownloadService.exe,🧷 全球直连",
+    "PROCESS-NAME,Weiyun.exe,🧷 全球直连",
+    "PROCESS-NAME,baidunetdisk.exe,🧷 全球直连",
+
+    // 2. 🛑 拦截广告
+    "GEOSITE,category-ads-all,🛑 拦截广告",
+
+    // 3. 💳 银行服务
+    "GEOSITE,category-bank-cn,💳 银行服务",
+    "GEOSITE,hsbc,💳 银行服务",
+    "GEOSITE,icbc,💳 银行服务",
+    "GEOSITE,ccb,💳 银行服务",
+
+    // 4. 😍 Comic
+    "DOMAIN,pemby.ednovas.org,😍 Comic",
+    "DOMAIN,ee.ednovas.org,😍 Comic",
+    "GEOSITE,18comic,😍 Comic",
+    "GEOSITE,pixiv,😍 Comic",
+
+    // 5. 🤖 AIGC
+    "GEOSITE,category-ai-!cn,🤖 AIGC",
+    "GEOSITE,apple-intelligence,🤖 AIGC",
+
+    // 6. 🖼️ 巴哈姆特
+    "GEOSITE,bahamut,🖼️ 巴哈姆特",
+
+    // 7. 🎓 学术网站
+    "GEOSITE,category-scholar-!cn,🎓 学术网站",
+
+    // 8. 🎮 Steam 登录/下载 vs 商店/社区
+    "DOMAIN-SUFFIX,cm.steampowered.com,🎮 Steam 登录/下载",
+    "DOMAIN-SUFFIX,steamcontent.com,🎮 Steam 登录/下载",
+    "DOMAIN-SUFFIX,steamserver.net,🎮 Steam 登录/下载",
+    "DOMAIN-SUFFIX,client-download.steampowered.com,🎮 Steam 登录/下载",
+    "GEOSITE,steam,🎮 Steam 商店/社区",
+
+    // 9. ☁️ OneDrive
+    "GEOSITE,onedrive,☁️ OneDrive",
+
+    // 10. 🌍 其他CN流媒体 & 哔哩哔哩 & 小黑盒
+    "GEOSITE,bilibili,📺 哔哩哔哩",
+    "GEOSITE,biliintl,📺 哔哩哔哩",
+    "GEOSITE,acfun,📺 哔哩哔哩",
+    "GEOSITE,xiaoheihe,📦 小黑盒",
+    "GEOSITE,iqiyi,🌍 其他CN流媒体",
+    "GEOSITE,youku,🌍 其他CN流媒体",
+    "GEOSITE,douyin,🌍 其他CN流媒体",
+    "GEOSITE,douyu,🌍 其他CN流媒体",
+    "GEOSITE,huya,🌍 其他CN流媒体",
+
+    // 11. 🌩️ Cloudflare
+    "GEOSITE,cloudflare,🌩️ Cloudflare",
+
+    // 12. 🚀 代理选择
+    "GEOSITE,geolocation-!cn,🚀 代理选择",
+
+    // 13. 🇨🇳 国内网站与全局 IP 规则
+    "GEOSITE,cn,🇨🇳 国内网站",
+    "GEOIP,private,🧷 全球直连,no-resolve",
+    "GEOIP,cloudflare,🌩️ Cloudflare,no-resolve",
+    "GEOIP,cn,🇨🇳 国内网站,no-resolve",
+
+    // 14. 🐟 漏网之鱼
+    "MATCH,🐟 漏网之鱼"
+  ];
+
+  return config;
+}
