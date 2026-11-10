@@ -9,40 +9,40 @@ geox-url:
   asn: 'https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb'
 
 # ================= 监听器配置开始 (不需要时可将此区块整体注释) =================
-listeners:
-  - name: bili-hk
-    type: mixed
-    port: 7891
-    listen: 127.0.0.1
-    proxy: 🇭🇰 香港节点
+# listeners:
+#   - name: bili-hk
+#     type: mixed
+#     port: 7891
+#     listen: 127.0.0.1
+#     proxy: 🇭🇰 香港节点
 
-  - name: bili-tw
-    type: mixed
-    port: 7892
-    listen: 127.0.0.1
-    proxy: 🇹🇼 台湾节点
+#   - name: bili-tw
+#     type: mixed
+#     port: 7892
+#     listen: 127.0.0.1
+#     proxy: 🇹🇼 台湾节点
 
-  - name: bili-cn
-    type: mixed
-    port: 7893
-    listen: 127.0.0.1
-    proxy: 🇨🇳 回国节点
+#   - name: bili-cn
+#     type: mixed
+#     port: 7893
+#     listen: 127.0.0.1
+#     proxy: 🇨🇳 回国节点
 
-  - name: bili-sg
-    type: mixed
-    port: 7894
-    listen: 127.0.0.1
-    proxy: 🇸🇬 狮城节点
+#   - name: bili-sg
+#     type: mixed
+#     port: 7894
+#     listen: 127.0.0.1
+#     proxy: 🇸🇬 狮城节点
 # ================= 监听器配置结束 =================
 
-# 域名嗅探，防止硬编码 IP 或 fake-ip-filter 放行后的流量无法匹配域名规则
+# 新增：域名嗅探，防止硬编码 IP 或 fake-ip-filter 放行后的流量无法匹配域名规则
 sniffer:
   enable: true
   parse-pure-ip: true
   override-destination: false
   sniff:
     HTTP:
-      ports: [80, '8080-8880']
+      ports: [80, 8080-8880]
       override-destination: true
     TLS:
       ports: [443, 8443]
@@ -54,11 +54,11 @@ sniffer:
 
 dns:
   enable: true
-  listen: '0.0.0.0:1053'
+  listen: ':1053'
   enhanced-mode: 'fake-ip'
   fake-ip-range: '198.18.0.1/16'
   fake-ip-filter-mode: 'blacklist'
-  prefer-h3: true
+  prefer-h3: false
   respect-rules: true
   use-hosts: false
   use-system-hosts: true
@@ -110,8 +110,20 @@ proxy-groups:
       - 🇨🇳 回国节点
     include-all: true
 
-  # AIGC
-  - name: 🤖 AIGC
+  # AI 独立分组：Gemini 默认使用当前网络直连，其余分别选择出口
+  - name: ✨ Gemini
+    type: select
+    proxies:
+      - DIRECT
+      - 🇹🇼 台湾节点
+      - 🇸🇬 狮城节点
+      - 🇯🇵 日本节点
+      - 🇺🇸 美国节点
+      - 🇭🇰 香港节点
+      - 🚀 代理选择
+    include-all: true
+
+  - name: 🧪 Google AI
     type: select
     proxies:
       - 🇹🇼 台湾节点
@@ -121,6 +133,55 @@ proxy-groups:
       - 🇭🇰 香港节点
       - 🚀 代理选择
       - DIRECT
+    include-all: true
+
+  - name: 🧠 OpenAI
+    type: select
+    proxies:
+      - 🇹🇼 台湾节点
+      - 🇸🇬 狮城节点
+      - 🇯🇵 日本节点
+      - 🇺🇸 美国节点
+      - 🇭🇰 香港节点
+      - 🚀 代理选择
+      - DIRECT
+    include-all: true
+
+  - name: 💬 Claude
+    type: select
+    proxies:
+      - 🇺🇸 美国节点
+      - 🇹🇼 台湾节点
+      - 🇸🇬 狮城节点
+      - 🇯🇵 日本节点
+      - 🇭🇰 香港节点
+      - 🚀 代理选择
+      - DIRECT
+    include-all: true
+
+  - name: 🤖 其他 AI
+    type: select
+    proxies:
+      - 🇹🇼 台湾节点
+      - 🇸🇬 狮城节点
+      - 🇯🇵 日本节点
+      - 🇺🇸 美国节点
+      - 🇭🇰 香港节点
+      - 🚀 代理选择
+      - DIRECT
+    include-all: true
+
+  - name: 🏠 国内 AI
+    type: select
+    proxies:
+      - DIRECT
+      - 🇨🇳 回国节点
+      - 🚀 代理选择
+      - 🇭🇰 香港节点
+      - 🇹🇼 台湾节点
+      - 🇸🇬 狮城节点
+      - 🇯🇵 日本节点
+      - 🇺🇸 美国节点
     include-all: true
 
   # 2. 流媒体
@@ -344,7 +405,6 @@ proxy-groups:
     include-all: true
 
   # ================= 第一部分：手动选择组 (展示在软件面板) =================
-  # 注意：YAML 中改用单引号包裹正则，避免双引号将 \b 解析为退格符 (0x08)
   - name: 🇭🇰 香港节点
     type: select
     proxies:
@@ -399,7 +459,7 @@ proxy-groups:
       - DIRECT
     include-all: true
     filter: '(?i)🇨🇳|中国|回国|国内|(\b(CN|China)\b)'
-    exclude-filter: '(?i)香港|台湾|澳门|剩余|流量|到期|官网'
+    exclude-filter: "(?i)香港|台湾|澳门|剩余|流量|到期|官网"
 
   # ================= 第二部分：自动测速组 (移至末尾，并在面板中隐藏) =================
   - name: 🇭🇰 香港自动
@@ -501,9 +561,33 @@ rules:
   - GEOSITE,18comic,😍 Comic
   - GEOSITE,pixiv,😍 Comic
 
-  # 5. 🤖 AIGC
-  - GEOSITE,category-ai-!cn,🤖 AIGC
-  - GEOSITE,apple-intelligence,🤖 AIGC
+  # 5. AI 分流：专用域名优先，服务规则其次，AI 大类兜底
+  # Gemini 网页与专用接口。DIRECT 指当前网络出口，并不自动选择香港。
+  - DOMAIN-SUFFIX,gemini.google.com,✨ Gemini
+  - DOMAIN-SUFFIX,gemini.google,✨ Gemini
+  - DOMAIN-SUFFIX,bard.google.com,✨ Gemini
+  - DOMAIN-SUFFIX,gemini.gstatic.com,✨ Gemini
+  - DOMAIN,geminiweb-pa.clients.google.com,✨ Gemini
+  - DOMAIN,geminiweb-pa.clients6.google.com,✨ Gemini
+  - DOMAIN-SUFFIX,robinfrontend-pa.googleapis.com,✨ Gemini
+
+  # AI Studio / Gemini API 始终交给 Google AI 组，不随 Gemini 直连
+  - DOMAIN-SUFFIX,aistudio.google.com,🧪 Google AI
+  - DOMAIN-SUFFIX,ai.studio,🧪 Google AI
+  - DOMAIN-SUFFIX,makersuite.google.com,🧪 Google AI
+  - DOMAIN,ai.google.dev,🧪 Google AI
+  - DOMAIN-SUFFIX,generativelanguage.googleapis.com,🧪 Google AI
+  - DOMAIN,alkalicore-pa.clients6.google.com,🧪 Google AI
+  - DOMAIN,alkalimakersuite-pa.clients6.google.com,🧪 Google AI
+  - DOMAIN,webchannel-alkalimakersuite-pa.clients6.google.com,🧪 Google AI
+
+  # google-gemini 还包含其他 Google AI 产品；上面的 Gemini 专用规则先匹配
+  - GEOSITE,google-gemini,🧪 Google AI
+  - GEOSITE,openai,🧠 OpenAI
+  - GEOSITE,anthropic,💬 Claude
+  - GEOSITE,category-ai-cn,🏠 国内 AI
+  - GEOSITE,category-ai-!cn,🤖 其他 AI
+  - GEOSITE,apple-intelligence,🤖 其他 AI
 
   # 6. 🖼️ 巴哈姆特
   - GEOSITE,bahamut,🖼️ 巴哈姆特
