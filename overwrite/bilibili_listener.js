@@ -12,7 +12,8 @@ function main(config) {
     "asn": "https://raw.githubusercontent.com/xishang0128/geoip/release/GeoLite2-ASN.mmdb"
   };
 
-  // 3. 监听器配置（供其他 App 独立调用端口分流）
+  // 3. 监听器配置（默认停用；需要独立端口分流时取消下方区块注释）
+  /*
   config["listeners"] = [
     {
       "name": "bili-hk",
@@ -43,6 +44,7 @@ function main(config) {
       "proxy": "🇸🇬 狮城节点"
     }
   ];
+  */
 
   // 4. 域名嗅探配置
   config["sniffer"] = {
@@ -70,11 +72,11 @@ function main(config) {
   // 5. DNS 配置
   config["dns"] = {
     "enable": true,
-    "listen": "0.0.0.0:1053",
+    "listen": ":1053",
     "enhanced-mode": "fake-ip",
     "fake-ip-range": "198.18.0.1/16",
     "fake-ip-filter-mode": "blacklist",
-    "prefer-h3": true,
+    "prefer-h3": false,
     "respect-rules": true,
     "use-hosts": false,
     "use-system-hosts": true,
@@ -117,7 +119,7 @@ function main(config) {
     }
   };
 
-  // 6. 策略组 (Proxy Groups) - 保持原样，修正 JS 字符串转义
+  // 6. 策略组 (Proxy Groups)
   config["proxy-groups"] = [
     // 1. 主代理选择
     {
@@ -135,9 +137,23 @@ function main(config) {
       ],
       "include-all": true
     },
-    // AIGC
+    // AI 独立分组：Gemini 默认使用当前网络直连，其余分别选择出口
     {
-      "name": "🤖 AIGC",
+      "name": "✨ Gemini",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "🇹🇼 台湾节点",
+        "🇸🇬 狮城节点",
+        "🇯🇵 日本节点",
+        "🇺🇸 美国节点",
+        "🇭🇰 香港节点",
+        "🚀 代理选择"
+      ],
+      "include-all": true
+    },
+    {
+      "name": "🧪 Google AI",
       "type": "select",
       "proxies": [
         "🇹🇼 台湾节点",
@@ -147,6 +163,63 @@ function main(config) {
         "🇭🇰 香港节点",
         "🚀 代理选择",
         "DIRECT"
+      ],
+      "include-all": true
+    },
+    {
+      "name": "🧠 OpenAI",
+      "type": "select",
+      "proxies": [
+        "🇹🇼 台湾节点",
+        "🇸🇬 狮城节点",
+        "🇯🇵 日本节点",
+        "🇺🇸 美国节点",
+        "🇭🇰 香港节点",
+        "🚀 代理选择",
+        "DIRECT"
+      ],
+      "include-all": true
+    },
+    {
+      "name": "💬 Claude",
+      "type": "select",
+      "proxies": [
+        "🇺🇸 美国节点",
+        "🇹🇼 台湾节点",
+        "🇸🇬 狮城节点",
+        "🇯🇵 日本节点",
+        "🇭🇰 香港节点",
+        "🚀 代理选择",
+        "DIRECT"
+      ],
+      "include-all": true
+    },
+    {
+      "name": "🤖 其他 AI",
+      "type": "select",
+      "proxies": [
+        "🇹🇼 台湾节点",
+        "🇸🇬 狮城节点",
+        "🇯🇵 日本节点",
+        "🇺🇸 美国节点",
+        "🇭🇰 香港节点",
+        "🚀 代理选择",
+        "DIRECT"
+      ],
+      "include-all": true
+    },
+    {
+      "name": "🏠 国内 AI",
+      "type": "select",
+      "proxies": [
+        "DIRECT",
+        "🇨🇳 回国节点",
+        "🚀 代理选择",
+        "🇭🇰 香港节点",
+        "🇹🇼 台湾节点",
+        "🇸🇬 狮城节点",
+        "🇯🇵 日本节点",
+        "🇺🇸 美国节点"
       ],
       "include-all": true
     },
@@ -542,7 +615,7 @@ function main(config) {
     }
   ];
 
-  // 7. 分流规则 (Rules) - 完全保持原样
+  // 7. 分流规则 (Rules)
   config["rules"] = [
     // 1. 局域网与下载进程优先直连
     "GEOSITE,private,🧷 全球直连",
@@ -582,9 +655,33 @@ function main(config) {
     "GEOSITE,18comic,😍 Comic",
     "GEOSITE,pixiv,😍 Comic",
 
-    // 5. 🤖 AIGC
-    "GEOSITE,category-ai-!cn,🤖 AIGC",
-    "GEOSITE,apple-intelligence,🤖 AIGC",
+    // 5. AI 分流：专用域名优先，服务规则其次，AI 大类兜底
+    // Gemini 网页与专用接口。DIRECT 指当前网络出口，并不自动选择香港。
+    "DOMAIN-SUFFIX,gemini.google.com,✨ Gemini",
+    "DOMAIN-SUFFIX,gemini.google,✨ Gemini",
+    "DOMAIN-SUFFIX,bard.google.com,✨ Gemini",
+    "DOMAIN-SUFFIX,gemini.gstatic.com,✨ Gemini",
+    "DOMAIN,geminiweb-pa.clients.google.com,✨ Gemini",
+    "DOMAIN,geminiweb-pa.clients6.google.com,✨ Gemini",
+    "DOMAIN-SUFFIX,robinfrontend-pa.googleapis.com,✨ Gemini",
+
+    // AI Studio / Gemini API 始终交给 Google AI 组，不随 Gemini 直连
+    "DOMAIN-SUFFIX,aistudio.google.com,🧪 Google AI",
+    "DOMAIN-SUFFIX,ai.studio,🧪 Google AI",
+    "DOMAIN-SUFFIX,makersuite.google.com,🧪 Google AI",
+    "DOMAIN,ai.google.dev,🧪 Google AI",
+    "DOMAIN-SUFFIX,generativelanguage.googleapis.com,🧪 Google AI",
+    "DOMAIN,alkalicore-pa.clients6.google.com,🧪 Google AI",
+    "DOMAIN,alkalimakersuite-pa.clients6.google.com,🧪 Google AI",
+    "DOMAIN,webchannel-alkalimakersuite-pa.clients6.google.com,🧪 Google AI",
+
+    // google-gemini 还包含其他 Google AI 产品；上面的 Gemini 专用规则先匹配
+    "GEOSITE,google-gemini,🧪 Google AI",
+    "GEOSITE,openai,🧠 OpenAI",
+    "GEOSITE,anthropic,💬 Claude",
+    "GEOSITE,category-ai-cn,🏠 国内 AI",
+    "GEOSITE,category-ai-!cn,🤖 其他 AI",
+    "GEOSITE,apple-intelligence,🤖 其他 AI",
 
     // 6. 🖼️ 巴哈姆特
     "GEOSITE,bahamut,🖼️ 巴哈姆特",
